@@ -112,7 +112,7 @@ describe('Given I am connected as an Admin', () => {
 
       const iconEdit = screen.getByTestId(pendingId)
       const billCardName = iconEdit.querySelector('.bill-card-name')
-      expect(billCardName.textContent).toBe('  a ')
+      expect(billCardName.textContent).toBe(' a ')
 
       userEvent.click(iconEdit)
       expect(screen.getByTestId(`dashboard-form`)).toBeTruthy()
@@ -279,4 +279,3 @@ describe("Given I am a user connected as Admin", () => {
     })
   })
 })
-

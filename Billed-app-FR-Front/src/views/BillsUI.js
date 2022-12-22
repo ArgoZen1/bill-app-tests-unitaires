@@ -19,9 +19,13 @@ const row = (bill) => {
     `)
 }
 
+
+// ordre decroissant. 
 const rows = (data) => {
-  // ajout de la methode sort pour trier les dates par ordre decroissant. 
-  return (data && data.length) ? data.sort((a, b) => ((a.date < b.date) ? 1 : -1)).map(bill => row(bill)).join("") : ""
+  data = data || []
+  const antiChrono = (a, b) => ((new Date(a.originalDate || a.date) < new Date(b.originalDate || b.date)) ? 1 : -1)
+  data.sort(antiChrono)
+  return (data && data.length) ? data.map(bill => row(bill)).join('') : ''
 }
 
 export default ({ data: bills, loading, error }) => {

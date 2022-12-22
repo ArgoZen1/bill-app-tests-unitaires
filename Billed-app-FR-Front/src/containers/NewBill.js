@@ -41,7 +41,7 @@ export default class NewBill {
           this.billId = key
           this.fileUrl = fileUrl
           this.fileName = fileName
-        }).catch(error => console.error(error))
+        })
     } else {
       e.target.value = "" // ici on reset l'input si le format n'est pas le bon
       alert('Veuillez respecter le format du fichier (PNG, JPG ou JPEG)') // on previent l'utilisateur afin qu'il puisse mettre un fichier au bon format
@@ -69,6 +69,7 @@ export default class NewBill {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.store) {
       this.store

@@ -11,6 +11,7 @@ export const filteredBills = (data, status) => {
       let selectCondition
 
       // in jest environment
+      /* istanbul ignore next */
       if (typeof jest !== 'undefined') {
         selectCondition = (bill.status === status)
       }
@@ -33,11 +34,12 @@ export const card = (bill) => {
     firstAndLastNames.split('.')[0] : ''
   const lastName = firstAndLastNames.includes('.') ?
     firstAndLastNames.split('.')[1] : firstAndLastNames
+  console.log(lastName, firstName)
 
   return (`
     <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${bill.id}'>
       <div class='bill-card-name-container'>
-        <div class='bill-card-name'> ${firstName} ${lastName} </div>
+        <div class='bill-card-name'>${firstName} ${lastName} </div>
         <span class='bill-card-grey'> ... </span>
       </div>
       <div class='name-price-container'>
