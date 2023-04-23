@@ -6,12 +6,13 @@ import { fireEvent, screen, waitFor } from "@testing-library/dom"
 import userEvent from '@testing-library/user-event'
 import DashboardFormUI from "../views/DashboardFormUI.js"
 import DashboardUI from "../views/DashboardUI.js"
-import Dashboard, { filteredBills, cards } from "../containers/Dashboard.js"
+import Dashboard, { filteredBills, cards, card } from "../containers/Dashboard.js"
 import { ROUTES, ROUTES_PATH } from "../constants/routes"
 import { localStorageMock } from "../__mocks__/localStorage.js"
 import mockStore from "../__mocks__/store"
 import { bills } from "../fixtures/bills"
 import router from "../app/Router"
+
 
 jest.mock("../app/Store", () => mockStore)
 const onNavigate = (pathname) => {
@@ -43,6 +44,39 @@ describe('Given I am connected as an Admin', () => {
       expect(filtered_bills.length).toBe(2)
     })
   })
+
+  describe('card', () => {
+    it('should return the correct HTML for a bill', () => {
+      const bill = {
+        id: 1,
+        email: 'john.doe@example.com',
+        name: 'Test Bill',
+        amount: 100,
+        date: new Date('2022-01-01'),
+        type: 'Electricity'
+      }
+
+      const expectedHTML = `
+    <div class='bill-card' id='open-bill1' data-testid='open-bill1'>
+      <div class='bill-card-name-container'>
+        <div class='bill-card-name'>john doe </div>
+        <span class='bill-card-grey'> ... </span>
+      </div>
+      <div class='name-price-container'>
+        <span> Test Bill </span>
+        <span> 100 € </span>
+      </div>
+      <div class='date-type-container'>
+        <span> 1 Jan. 22 </span>
+        <span> Electricity </span>
+      </div>
+    </div>
+  `
+
+      expect(card(bill)).toBe(expectedHTML)
+    })
+  })
+
   describe('When I am on Dashboard page but it is loading', () => {
     test('Then, Loading page should be rendered', () => {
       document.body.innerHTML = DashboardUI({ loading: true })
@@ -197,7 +231,6 @@ describe('Given I am connected as Admin and I am on Dashboard page and I clicked
       const dashboard = new Dashboard({
         document, onNavigate, store, bills, localStorage: window.localStorage
       })
-
       const eye = screen.getByTestId('icon-eye-d')
       eye.addEventListener('click', dashboard.handleClickIconEye)
       userEvent.click(eye)
